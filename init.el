@@ -34,7 +34,8 @@
                       smex
                       idle-highlight-mode
                       ido-ubiquitous
-
+		      exec-path-from-shell
+		      auto-complete
                       ;; Project organization
                       find-file-in-project
                       
