@@ -4,7 +4,6 @@ backups
 .places
 session.*
 tramp
-elpa
 swank
 emms
 site-lisp/adventur-mode
@@ -16,3 +15,7 @@ site-lisp/adventur-mode
 /var/
 /.sx/
 /ensime/
+vendor/
+eshell/
+ido.last
+custom.el

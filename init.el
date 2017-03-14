@@ -10,65 +10,73 @@
       (expand-file-name "vendor" user-emacs-directory))
 
 ;; Add package repos
+(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives ' ("gnu" . "https://elpa.gnu.org/packages/") t)
 
-(defvar my-packages '(better-defaults paredit idle-highlight-mode ido-ubiquitous
-                                      find-file-in-project magit smex))
-
-
 (package-initialize)
 
-; check for new packages (package versions)
-(message "%s" "Emacs is now refreshing its package database...")
-(package-refresh-contents)
-(message "%s" " done.")
-                                        ; install the missing packages
+;; Load paths
+(add-to-list 'load-path (expand-file-name "pkg" user-emacs-directory))
 
-(message "%s" "Emacs is installing packages from repositories...")
+(require 'cl)
+
+; check for new packages (package versions)
+(when (not package-archive-contents)
+  (message "%s" "Emacs is now refreshing its package database...")
+  (package-refresh-contents)
+  (message "%s" " done."))
+
+(defvar my-packages '(better-defaults
+                      paredit
+
+                      ;; Emacs extensions
+                      smex
+                      idle-highlight-mode
+                      ido-ubiquitous
+
+                      ;; Project organization
+                      find-file-in-project
+                      
+                      ;; Errors reporting
+                      flycheck
+                      
+                      ;; Version Control
+                      magit ;; git
+
+                      ;; Programming language
+                      js2-mode js2-refactor  tide ;; Javascript and typescript 
+                      css-mode
+                      php-mode
+                      go-mode go-eldoc go-autocomplete gotest;; golang
+                      web-mode
+                      
+                      ;; Serialization language
+                      protobuf-mode
+                      yaml-mode
+                      json-mode
+                      ))
+
+; install the missing packages
+
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-(message "%s" " done.")
 
 
+;; Core Libs
+(require 'defaults)
+(require 'defuns)
 
 ;; No splash screen please ... jeez
-(setq inhibit-startup-message t)
+;; (setq inhibit-startup-message t)
 
-;; Set path to dependencies
-(setq core-dir
-      (expand-file-name "core" user-emacs-directory))
-
-(setq settings-dir
-      (expand-file-name "settings" user-emacs-directory))
-
-;; Set up load path
-(add-to-list 'load-path settings-dir)
-(add-to-list 'load-path core-dir)
 
 ;; Keep emacs Custom-settings in separate file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
+(load custom-file 'noerror)
 
-;; Are we on a mac?
-(setq is-mac (equal system-type 'darwin))
+;; Keys Bindings
+(require 'keys-bindings)
 
-;; Write backup files to own directory
-(setq backup-directory-alist
-      `(("." . ,(expand-file-name
-                 (concat user-emacs-directory "backups")))))
-
-;; Make backups of files, even when they're in version control
-(setq vc-make-backup-files t)
-
-;; Save point position between sessions
-(require 'saveplace)
-(setq-default save-place t)
-(setq save-place-file (expand-file-name ".places" user-emacs-directory))
-
-;; Setup environment variables from the user's shell.
-;;(when is-mac
-;;  (require-package 'exec-path-from-shell)
-;;  (exec-path-from-shell-initialize))
 
