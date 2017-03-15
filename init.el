@@ -1,4 +1,5 @@
 (setq is-mac (equal system-type 'darwin))
+(set-default-font "Monaco 16")
 
 ;; Initialization
 (require 'package)
@@ -41,7 +42,7 @@
 
                       ;; Programming language
                       php-mode ;; PHP
-                      go-mode go-eldoc go-autocomplete gotest ;; golang
+                      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
                       web-mode scss-mode css-mode ;; HTML, CSS and JS
                       js2-mode js2-refactor  ;; JS 
                       ng2-mode typescript tide ;; Typescript && AngularJS
@@ -58,6 +59,8 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
 
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "GOPATH")
   ;; Ignore .DS_Store files with ido mode
 ;;  (add-to-list 'ido-ignore-files "\\.DS_Store")
 
@@ -144,6 +147,40 @@
          (number-sequence my-tab-width 200 my-tab-width))))
 
 (require 'go-mode) ;; Golang
+
+;; Define function to call when go-mode loads
+(defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
+  (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
+  (if (not (string-match "go" compile-command))   ; set compile command default
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+
+  ;; guru settings
+  (go-guru-hl-identifier-mode)                    ; highlight identifiers
+  
+  ;; Key bindings specific to go-mode
+  (local-set-key (kbd "M-.") 'godef-jump)         ; Go to definition
+  (local-set-key (kbd "M-*") 'pop-tag-mark)       ; Return from whence you came
+  (local-set-key (kbd "M-p") 'compile)            ; Invoke compiler
+  (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
+  (local-set-key (kbd "M-]") 'next-error)         ; Go to next error (or msg)
+  (local-set-key (kbd "M-[") 'previous-error)     ; Go to previous error or msg
+
+  ;; Misc go stuff
+  (auto-complete-mode 1))                         ; Enable auto-complete mode
+
+;; Connect go-mode-hook with the function we just defined
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+;; Ensure the go specific autocomplete is active in go-mode.
+(with-eval-after-load 'go-mode
+   (require 'go-autocomplete))
+
+;; If the go-guru.el file is in the load path, this will load it.
+(require 'go-guru)
+
+
 (require 'go-eldoc)
 (require 'go-autocomplete)
 (require 'gotest)
