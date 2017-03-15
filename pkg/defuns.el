@@ -108,9 +108,9 @@ Symbols matching the text at point are put first in the completion list."
   "Enable things that are convenient across all coding buffers."
   (run-hooks 'coding-hook))
 
-(defun untabify-buffer ()
+(defun tabify-buffer ()
   (interactive)
-  (untabify (point-min) (point-max)))
+  (tabify (point-min) (point-max)))
 
 (defun indent-buffer ()
   (interactive)
@@ -120,7 +120,7 @@ Symbols matching the text at point are put first in the completion list."
   "Perform a bunch of operations on the whitespace content of a buffer."
   (interactive)
   (indent-buffer)
-  (untabify-buffer)
+  (tabify-buffer)
   (delete-trailing-whitespace))
 
 (defun recentf-ido-find-file ()

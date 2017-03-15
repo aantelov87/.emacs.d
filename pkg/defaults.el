@@ -21,7 +21,18 @@
 
   
 (show-paren-mode 1)
+;; Turn on tabs
+(setq indent-tabs-mode t)
 (setq-default indent-tabs-mode t)
+
+;; Set the tab width
+(setq default-tab-width 8)
+(setq tab-width 8)
+(setq c-basic-indent 8)
+
+;; No splash screen please ... jeez
+(setq inhibit-startup-message t)
+
 (setq x-select-enable-clipboard t
       x-select-enable-primary t
       save-interprogram-paste-before-kill t

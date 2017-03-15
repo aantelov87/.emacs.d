@@ -1,3 +1,5 @@
+(setq is-mac (equal system-type 'darwin))
+
 ;; Initialization
 (require 'package)
 
@@ -22,11 +24,15 @@
                       smex
                       idle-highlight-mode
                       ido-ubiquitous
+		      ido-vertical-mode
+		      ido-at-point
 		      exec-path-from-shell
 		      auto-complete
                       find-file-in-project
                       paredit
-                      
+		      dired-details
+		      markdown-mode
+
                       ;; Errors reporting
                       flycheck
                       
@@ -46,6 +52,21 @@
                       json json-reformat json-snatcher ;; json
                       ))
 
+(when is-mac
+  (add-to-list 'my-packages 'exec-path-from-shell)
+  (setq mac-option-modifier 'super)
+  (setq mac-command-modifier 'meta)
+  (setq ns-function-modifier 'hyper)
+
+  ;; Ignore .DS_Store files with ido mode
+;;  (add-to-list 'ido-ignore-files "\\.DS_Store")
+
+  ;; Don't open files from the workspace in a new frame
+  (setq ns-pop-up-frames nil)
+
+  ;; Use aspell for spell checking: brew install aspell --lang=en
+  (setq ispell-program-name "/usr/local/bin/aspell"))
+
 ;; install the missing packages
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -63,8 +84,64 @@
 (require 'defaults)
 (require 'defuns)
 
+;; Smart M-x is smart
+(require 'smex)
+(smex-initialize)
+
+(require 'magit)
+
+(defun magit-toggle-whitespace ()
+  (interactive)
+  (if (member "-w" magit-diff-options)
+      (magit-dont-ignore-whitespace)
+    (magit-ignore-whitespace)))
+
+(defun magit-ignore-whitespace ()
+  (interactive)
+  (add-to-list 'magit-diff-options "-w")
+  (magit-refresh))
+
+(defun magit-dont-ignore-whitespace ()
+  (interactive)
+  (setq magit-diff-options (remove "-w" magit-diff-options))
+  (magit-refresh))
+
+(define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+
+;; Make dired less verbose
+(require 'dired-details)
+(setq-default dired-details-hidden-string "--- ")
+(dired-details-install)
+
+;; Use ido everywhere
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode 1)
+
+;; Fix ido-ubiquitous for newer packages
+(defmacro ido-ubiquitous-use-new-completing-read (cmd package)
+  `(eval-after-load ,package
+     '(defadvice ,cmd (around ido-ubiquitous-new activate)
+        (let ((ido-ubiquitous-enable-compatibility nil))
+          ad-do-it))))
+
+(ido-ubiquitous-use-new-completing-read webjump 'webjump)
+(ido-ubiquitous-use-new-completing-read yas/expand 'yasnippet)
+(ido-ubiquitous-use-new-completing-read yas/visit-snippet-file 'yasnippet)
+
+(require 'auto-complete)
+(global-auto-complete-mode t)
 ;; Load modules for PHP and GOLANG
 (require 'php-mode) ;; PHP
+
+(add-hook 'php-mode-hook 'my-php-mode-hook)
+(defun my-php-mode-hook ()
+  (setq indent-tabs-mode t)
+  (let ((my-tab-width 8))
+    (setq tab-width my-tab-width)
+    (setq c-basic-indent my-tab-width)
+    (set (make-local-variable 'tab-stop-list)
+         (number-sequence my-tab-width 200 my-tab-width))))
 
 (require 'go-mode) ;; Golang
 (require 'go-eldoc)
@@ -72,12 +149,40 @@
 (require 'gotest)
 
 ;; Load modules for HTML, CSS and JS
+
+(defun skip-to-next-blank-line ()
+  (interactive)
+  (let ((inhibit-changing-match-data t))
+    (skip-syntax-forward " >")
+    (unless (search-forward-regexp "^\\s *$" nil t)
+      (goto-char (point-max)))))
+
+(defun skip-to-previous-blank-line ()
+  (interactive)
+  (let ((inhibit-changing-match-data t))
+    (skip-syntax-backward " >")
+    (unless (search-backward-regexp "^\\s *$" nil t)
+      (goto-char (point-min)))))
+
+(eval-after-load "sgml-mode"
+  '(progn
+     (define-key html-mode-map
+       [remap forward-paragraph] 'skip-to-next-blank-line)
+
+     (define-key html-mode-map
+       [remap backward-paragraph] 'skip-to-previous-blank-line)))
+
+
+;; after deleting a tag, indent properly
+(defadvice sgml-delete-tag (after reindent activate)
+  (indent-region (point-min) (point-max)))
+
 (require 'web-mode) ;; General web development
 
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\.twig\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
 
 
 (require 'scss-mode) ;; CSS and SCSS
@@ -85,10 +190,27 @@
 
 (require 'js2-mode)     ;; Javascript
 (require 'js2-refactor)
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
 
 (require 'typescript) ;; Typescript && Angular
 (require 'tide)
 (require 'ng2-mode)
+
+(setq tide-tsserver-executable "node_modules/typescript/bin/tsserver")
+(setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1))
+
+;; formats the buffer before saving
+(add-hook 'before-save-hook 'tide-format-before-save)
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+(add-hook 'js2-mode-hook #'setup-tide-mode)
 
 ;; Load modules for encoding formats (json, yaml-mode, proto)
 (require 'protobuf-mode)
@@ -107,3 +229,4 @@
 
 ;; Keys Bindings
 (require 'keys-bindings)
+(require 'mode-mappings)
