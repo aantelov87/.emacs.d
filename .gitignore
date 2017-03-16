@@ -15,7 +15,8 @@ site-lisp/adventur-mode
 /var/
 /.sx/
 /ensime/
-vendor/
+vendors/
 eshell/
 ido.last
 custom.el
+ac-comphist.dat

@@ -78,5 +78,6 @@
 (eval-after-load "magit"
   '(define-key magit-status-mode-map (kbd "C-c C-a") 'magit-just-amend))
 
+(global-set-key (kbd "M-x") 'smex)
 
 (provide 'keys-bindings)

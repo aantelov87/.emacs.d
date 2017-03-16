@@ -19,16 +19,8 @@
 (require 'saveplace)
 (setq-default save-place t)
 
-  
 (show-paren-mode 1)
-;; Turn on tabs
-(setq indent-tabs-mode t)
-(setq-default indent-tabs-mode t)
-
-;; Set the tab width
-(setq default-tab-width 8)
-(setq tab-width 8)
-(setq c-basic-indent 8)
+(setq-default word-wrap t)
 
 ;; No splash screen please ... jeez
 (setq inhibit-startup-message t)

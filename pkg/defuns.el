@@ -261,4 +261,133 @@ Symbols matching the text at point are put first in the completion list."
   (let ((name (file-relative-name file)))
     (vc-git-command buf 0 name "blame" "-w" rev)))
 
+
+;; Functions for magit
+(defun magit-toggle-whitespace ()
+  (interactive)
+  (if (member "-w" magit-diff-options)
+      (magit-dont-ignore-whitespace)
+    (magit-ignore-whitespace)))
+
+(defun magit-ignore-whitespace ()
+  (interactive)
+  (add-to-list 'magit-diff-options "-w")
+  (magit-refresh))
+
+(defun magit-dont-ignore-whitespace ()
+  (interactive)
+  (setq magit-diff-options (remove "-w" magit-diff-options))
+  (magit-refresh))
+
+;; Functions for php
+(defun my-php-mode-hook ()
+    (my-setup-indent 8)
+    (set (make-local-variable 'tab-stop-list)
+         (number-sequence my-tab-width 200 my-tab-width))
+    (auto-complete-mode t)
+    (require 'ac-php)
+    (setq ac-sources  '(ac-source-php ) )
+    (yas-global-mode 1))
+ 
+;; Funcs for golang
+(defun go-mode-setup ()
+  (setq compile-command "go vet && errcheck && go test -v && go build -v")
+  (define-key (current-local-map) "\C-c\C-c" 'compile)
+  (go-eldoc-setup)
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+
+  ;; guru settings
+  (go-guru-hl-identifier-mode)                    ; highlight identifiers
+
+  ;; Key bindings specific to go-mode
+  (local-set-key (kbd "M-.") 'godef-jump)         ; Go to definition
+  (local-set-key (kbd "M-*") 'pop-tag-mark)       ; Return from whence you came
+  (local-set-key (kbd "M-p") 'compile)            ; Invoke compiler
+  (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
+  (local-set-key (kbd "M-]") 'next-error)         ; Go to next error (or msg)
+  (local-set-key (kbd "M-[") 'previous-error)     ; Go to previous error or msg
+
+  ;; Misc go stuff
+  (auto-complete-mode 1))
+
+;; Func for HTML, CSS, JS
+(defun skip-to-next-blank-line ()
+  (interactive)
+  (let ((inhibit-changing-match-data t))
+    (skip-syntax-forward " >")
+    (unless (search-forward-regexp "^\\s *$" nil t)
+      (goto-char (point-max)))))
+
+(defun skip-to-previous-blank-line ()
+  (interactive)
+  (let ((inhibit-changing-match-data t))
+    (skip-syntax-backward " >")
+    (unless (search-backward-regexp "^\\s *$" nil t)
+      (goto-char (point-min)))))
+
+(defun js-mode-bindings ()
+    "Sets a hotkey for using the json-snatcher plugin"
+      (when (string-match  "\\.json$" (buffer-name))
+            (local-set-key (kbd "C-c C-g") 'jsons-print-path)))
+
+
+;; Func for typescript mode
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1))
+
+(defun extension-tide-mode ()
+  (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode)))
+
+
+;; Func for ido-mode
+(defmacro ido-ubiquitous-use-new-completing-read (cmd package)
+  `(eval-after-load ,package
+     '(defadvice ,cmd (around ido-ubiquitous-new activate)
+        (let ((ido-ubiquitous-enable-compatibility nil))
+          ad-do-it))))
+
+
+;; after deleting a tag, indent properly
+(defadvice sgml-delete-tag (after reindent activate)
+  (indent-region (point-min) (point-max)))
+
+
+(defun my-setup-indent (n)
+  ;; Turn on tabs
+  (setq indent-tabs-mode t)
+  (setq-default indent-tabs-mode t)
+
+  ;; Set the tab width
+  (setq default-tab-width n)
+  (setq tab-width n)
+  (setq c-basic-indent n)
+  
+  ;; java/c/c++
+  (setq-local c-basic-offset n)
+  ;; web development
+  (setq-local coffee-tab-width n) ; coffeescript
+  (setq-local javascript-indent-level n) ; javascript-mode
+  (setq-local js-indent-level n) ; js-mode
+  (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level
+  (setq-local web-mode-markup-indent-offset n) ; web-mode, html tag in html file
+  (setq-local web-mode-css-indent-offset n) ; web-mode, css in html file
+  (setq-local web-mode-code-indent-offset n) ; web-mode, js code in html file
+  (setq-local css-indent-offset n) ; css-mode
+  )
+
+(defun my-code-style ()
+  (interactive)
+  (message "My personal code style!")
+  ;; use space instead of tab
+  (setq indent-tabs-mode nil)
+  ;; indent 2 spaces width
+  (my-setup-indent 8))
+
 (provide 'defuns)
