@@ -66,6 +66,7 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
   (require 'exec-path-from-shell)
+  (set-default-font "Monaco 14")
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH")
   ;; Don't open files from the workspace in a new frame
@@ -82,6 +83,7 @@
 
 ;; Load core modules && defined functions
 (require 'tramp)
+(require 'flycheck)
 (require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
@@ -92,6 +94,9 @@
 (epa-file-enable)
 
 (require 'mail-client)
+
+(global-flycheck-mode 1)
+(setq flycheck-checker-error-threshold 20000)
 
 (autoload 'smart-tabs-mode "smart-tabs-mode"
   "Intelligently indent with tabs, align with spaces!")
@@ -134,10 +139,8 @@
 
 ;; Load modules for PHP and GOLANG
 (require 'php-mode) ;; PHP
-
+(add-to-list 'flycheck-checkers 'phpcs) ;; Code standards
 (add-hook 'php-mode-hook 'my-php-mode-hook)
-
-
 
 ;;Load Go-specific language syntax
 (add-hook 'go-mode-hook 'go-mode-setup)
@@ -161,11 +164,7 @@
        [remap backward-paragraph] 'skip-to-previous-blank-line)))
 
 (require 'web-mode) ;; General web development
-
-
-
 (add-hook 'web-mode-hook 'extension-tide-mode)
-
 
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)

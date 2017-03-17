@@ -282,8 +282,6 @@ Symbols matching the text at point are put first in the completion list."
 ;; Functions for php
 (defun my-php-mode-hook ()
     (my-setup-indent 8)
-    (set (make-local-variable 'tab-stop-list)
-         (number-sequence my-tab-width 200 my-tab-width))
     (auto-complete-mode t)
     (require 'ac-php)
     (setq ac-sources  '(ac-source-php ) )
@@ -389,5 +387,16 @@ Symbols matching the text at point are put first in the completion list."
   (setq indent-tabs-mode nil)
   ;; indent 2 spaces width
   (my-setup-indent 8))
+
+(flycheck-declare-checker phpcs
+  "A PHP syntax checker using the PHP_CodeSniffer.
+
+See URL `http://pear.php.net/package/PHP_CodeSniffer/'."
+  :command '("phpcs" "--standard=GPN" "--report=emacs" source)
+  :error-patterns
+  '(("\\(?1:.*\\):\\(?2:[0-9]+\\):\\(?3:[0-9]+\\): error - \\(?4:.*\\)" error)
+    ("\\(?1:.*\\):\\(?2:[0-9]+\\):\\(?3:[0-9]+\\): warning - \\(?4:.*\\)" warning))
+  :modes '(php-mode php+-mode)
+  :next-checkers '(php))
 
 (provide 'defuns)
