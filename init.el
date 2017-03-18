@@ -32,7 +32,7 @@
                       paredit
 		      markdown-mode
 		      smart-tabs-mode
-		      
+		      mu4e-alert		      
                       ;; Errors reporting
                       flycheck
                       
