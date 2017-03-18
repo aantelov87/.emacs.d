@@ -30,7 +30,6 @@
 		      auto-complete
                       find-file-in-project
                       paredit
-		      dired-details
 		      markdown-mode
 		      smart-tabs-mode
 		      
@@ -88,6 +87,12 @@
 (require 'find-file-in-project)
 (require 'smart-tabs-mode)
 
+(require 'epa-file)
+(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
+(epa-file-enable)
+
+(require 'mail-client)
+
 (autoload 'smart-tabs-mode "smart-tabs-mode"
   "Intelligently indent with tabs, align with spaces!")
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
@@ -114,11 +119,6 @@
 ;; Git mode settings
 (require 'magit)
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-
-;; Make dired less verbose
-(require 'dired-details)
-(setq-default dired-details-hidden-string "--- ")
-(dired-details-install)
 
 ;; Use ido everywhere
 (require 'ido-ubiquitous)
