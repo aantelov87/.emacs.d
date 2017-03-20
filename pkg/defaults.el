@@ -26,12 +26,20 @@
 (setq inhibit-startup-message t)
 
 ;; Write backup files to own directory
+;; store all backup and autosave files in the tmp dir
+(setq backups-dir
+      (expand-file-name ".backups" user-emacs-directory))
+(setq places-dir
+      (expand-file-name ".places" user-emacs-directory))
+
+;; Write backup files to own directory
 (setq backup-directory-alist
-      '((".*" . ,(expand-file-name
-                 (concat user-emacs-directory "backups")))))
+      `((".*" . ,backups-dir)))
 (setq auto-save-file-name-transforms
-      '((".*" ,(expand-file-name
-                 (concat user-emacs-directory "backups")) t)))
+      `((".*" ,backups-dir t)))
+
+
+
 
 ;; Save point position between sessions
 (require 'saveplace)

@@ -95,7 +95,7 @@
 (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
 (epa-file-enable)
 
-(require 'mail-client)
+;;(require 'mail-client)
 
 (global-flycheck-mode 1)
 (setq flycheck-checker-error-threshold 20000)

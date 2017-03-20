@@ -1,7 +1,5 @@
 auto-save-list
-backups
 *~
-.places
 session.*
 tramp
 swank
@@ -20,3 +18,6 @@ eshell/
 ido.last
 custom.el
 ac-comphist.dat
+.backups/*
+.places/*
+!*.gitkeep
