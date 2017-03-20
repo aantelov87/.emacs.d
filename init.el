@@ -35,7 +35,8 @@
 		      
                       ;; Errors reporting
                       flycheck
-                      
+		      flycheck-pos-tip
+		      		      
                       ;; Version Control
                       magit ;; git
 
@@ -84,6 +85,7 @@
 ;; Load core modules && defined functions
 (require 'tramp)
 (require 'flycheck)
+(require 'flycheck-pos-tip)
 (require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
@@ -97,12 +99,17 @@
 
 (global-flycheck-mode 1)
 (setq flycheck-checker-error-threshold 20000)
+(eval-after-load 'flycheck
+  '(custom-set-variables
+    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
+;; Smart Tabs
 (autoload 'smart-tabs-mode "smart-tabs-mode"
   "Intelligently indent with tabs, align with spaces!")
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
 (autoload 'smart-tabs-advice "smart-tabs-mode")
 (autoload 'smart-tabs-insinuate "smart-tabs-mode")
+
 ;; Find files in project
 (autoload 'find-file-in-project "find-file-in-project" nil t)
 (autoload 'find-file-in-project-by-selected "find-file-in-project" nil t)
@@ -139,7 +146,6 @@
 
 ;; Load modules for PHP and GOLANG
 (require 'php-mode) ;; PHP
-(add-to-list 'flycheck-checkers 'phpcs) ;; Code standards
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 
 ;;Load Go-specific language syntax
@@ -200,3 +206,4 @@
 ;; Keys Bindings
 (require 'keys-bindings)
 (require 'mode-mappings)
+;;; init.el ends here
