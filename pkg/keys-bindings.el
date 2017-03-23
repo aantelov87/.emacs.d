@@ -1,5 +1,7 @@
-;;
 ;; Keys bindings.
+
+
+(global-set-key (kbd "TAB") 'my-insert-tab-char) ; same as Ctrl+i
 
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x \\") 'align-regexp)
@@ -28,7 +30,7 @@
 
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
-(global-set-key (kbd "C-x C-M-f") 'find-file-in-project)
+(global-set-key (kbd "C-c C-f") 'find-file-in-project)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 (global-set-key (kbd "C-c y") 'bury-buffer)
 (global-set-key (kbd "C-c r") 'revert-buffer)
@@ -48,9 +50,6 @@
 
 ;; Help should search more than just commands
 (global-set-key (kbd "C-h a") 'apropos)
-
-;; Should be able to eval-and-replace anywhere.
-(global-set-key (kbd "C-c e") 'eval-and-replace)
 
 ;; For debugging Emacs modes
 (global-set-key (kbd "C-c p") 'message-point)

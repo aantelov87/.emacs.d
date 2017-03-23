@@ -1,0 +1,30 @@
+(defvar my-mu4e-account-alist
+  '(("Account1"
+     (setq mu4e-maildir-shortcuts
+	   '( ("/INBOX"               . ?i)
+	      ("/[Gmail].Sent Mail"   . ?s)
+	      ("/[Gmail].Trash"       . ?t)
+	      ("/[Gmail].All Mail"    . ?a)))
+     (setq mu4e-drafts-folder "/[Gmail].Drafts")
+     (setq mu4e-sent-folder   "/[Gmail].Sent Mail")
+     (setq mu4e-trash-folder  "/[Gmail].Trash")     
+     (mu4e-sent-folder "/Account1/Saved Items")
+     (mu4e-drafts-folder "/Account1/Drafts")
+     (user-mail-address "my.address@account1.example.com")
+     (smtpmail-default-smtp-server "smtp.account1.example.com")
+     (smtpmail-local-domain "account1.example.com")
+     (smtpmail-smtp-user "username1")
+     (smtpmail-smtp-server "smtp.account1.example.com")
+     (smtpmail-stream-type starttls)
+     (smtpmail-smtp-service 25))
+    ("Account2"
+     (mu4e-sent-folder "/Account2/Saved Items")
+     (mu4e-drafts-folder "/Account2/Drafts")
+     (user-mail-address "my.address@account2.example.com")
+     (smtpmail-default-smtp-server "smtp.account2.example.com")
+     (smtpmail-local-domain "account2.example.com")
+     (smtpmail-smtp-user "username2")
+     (smtpmail-smtp-server "smtp.account2.example.com")
+     (smtpmail-stream-type starttls)
+     (smtpmail-smtp-service 587))))
+

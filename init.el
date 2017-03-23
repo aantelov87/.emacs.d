@@ -35,7 +35,8 @@
 		      mu4e-alert		      
                       ;; Errors reporting
                       flycheck
-                      
+		      flycheck-pos-tip
+		      		      
                       ;; Version Control
                       magit ;; git
 
@@ -66,6 +67,7 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
   (require 'exec-path-from-shell)
+  (set-default-font "Monaco 14")
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH")
   ;; Don't open files from the workspace in a new frame
@@ -82,10 +84,12 @@
 
 ;; Load core modules && defined functions
 (require 'tramp)
+(require 'flycheck)
+(require 'flycheck-pos-tip)
 (require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
-(require 'smart-tabs-mode)
+;; (require 'smart-tabs-mode)
 
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
@@ -93,11 +97,19 @@
 
 (require 'mail-client)
 
+(global-flycheck-mode 1)
+(setq flycheck-checker-error-threshold 20000)
+(eval-after-load 'flycheck
+  '(custom-set-variables
+    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+
+;; Smart Tabs
 (autoload 'smart-tabs-mode "smart-tabs-mode"
   "Intelligently indent with tabs, align with spaces!")
 (autoload 'smart-tabs-mode-enable "smart-tabs-mode")
 (autoload 'smart-tabs-advice "smart-tabs-mode")
 (autoload 'smart-tabs-insinuate "smart-tabs-mode")
+
 ;; Find files in project
 (autoload 'find-file-in-project "find-file-in-project" nil t)
 (autoload 'find-file-in-project-by-selected "find-file-in-project" nil t)
@@ -134,10 +146,7 @@
 
 ;; Load modules for PHP and GOLANG
 (require 'php-mode) ;; PHP
-
 (add-hook 'php-mode-hook 'my-php-mode-hook)
-
-
 
 ;;Load Go-specific language syntax
 (add-hook 'go-mode-hook 'go-mode-setup)
@@ -161,11 +170,7 @@
        [remap backward-paragraph] 'skip-to-previous-blank-line)))
 
 (require 'web-mode) ;; General web development
-
-
-
 (add-hook 'web-mode-hook 'extension-tide-mode)
-
 
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)
@@ -201,3 +206,4 @@
 ;; Keys Bindings
 (require 'keys-bindings)
 (require 'mode-mappings)
+;;; init.el ends here
