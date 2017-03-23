@@ -32,7 +32,7 @@
                       paredit
 		      markdown-mode
 		      smart-tabs-mode
-		      
+
                       ;; Errors reporting
                       flycheck
 		      flycheck-pos-tip
@@ -89,13 +89,13 @@
 (require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
-(require 'smart-tabs-mode)
+;; (require 'smart-tabs-mode)
 
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
 (epa-file-enable)
 
-;;(require 'mail-client)
+(require 'mail-client)
 
 (global-flycheck-mode 1)
 (setq flycheck-checker-error-threshold 20000)

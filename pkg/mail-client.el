@@ -1,12 +1,5 @@
 (require 'mu4e)
 
-;; default
-;; (setq mu4e-maildir "~/Maildir")
-
-(setq mu4e-drafts-folder "/[Gmail].Drafts")
-(setq mu4e-sent-folder   "/[Gmail].Sent Mail")
-(setq mu4e-trash-folder  "/[Gmail].Trash")
-
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
 
@@ -19,38 +12,30 @@
 ;; then, when you want archive some messages, move them to
 ;; the 'All Mail' folder by pressing ``ma''.
 
-(setq mu4e-maildir-shortcuts
-    '( ("/INBOX"               . ?i)
-       ("/[Gmail].Sent Mail"   . ?s)
-       ("/[Gmail].Trash"       . ?t)
-       ("/[Gmail].All Mail"    . ?a)))
-
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap")
 
-;; something about ourselves
-(setq
-   user-mail-address "aantelov87@gmail.com"
-   user-full-name  "Antonio Antelo"
-   ;;   mu4e-compose-signature
-   ;;    (concat
-   ;;      "Foo X. Bar\n"
-   ;;      "http://www.example.com\n")
-   )
+;; Function to set account based on configuration
+(defun my-mu4e-set-account ()
+  "Set the account for composing a message."
+  (let* ((account
+          (if mu4e-compose-parent-message
+              (let ((maildir (mu4e-message-field mu4e-compose-parent-message :maildir)))
+                (string-match "/\\(.*?\\)/" maildir)
+                (match-string 1 maildir))
+            (completing-read (format "Compose with account: (%s) "
+                                     (mapconcat #'(lambda (var) (car var))
+                                                my-mu4e-account-alist "/"))
+                             (mapcar #'(lambda (var) (car var)) my-mu4e-account-alist)
+                             nil t nil nil (caar my-mu4e-account-alist))))
+         (account-vars (cdr (assoc account my-mu4e-account-alist))))
+    (if account-vars
+        (mapc #'(lambda (var)
+                  (set (car var) (cadr var)))
+              account-vars)
+      (error "No email account found"))))
 
-;; sending mail -- replace USERNAME with your gmail username
-;; also, make sure the gnutls command line utils are installed
-;; package 'gnutls-bin' in Debian/Ubuntu
-
-(require 'smtpmail)
-(setq message-send-mail-function 'smtpmail-send-it
-   starttls-use-gnutls t
-   smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-   smtpmail-auth-credentials
-     '(expand-file-name "~/.authinfo.gpg")
-   smtpmail-default-smtp-server "smtp.gmail.com"
-   smtpmail-smtp-server "smtp.gmail.com"
-   smtpmail-smtp-service 587)
+(add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
 ;; allow for updating mail using 'U' in the main view:
 (setq mu4e-get-mail-command "offlineimap"
@@ -58,5 +43,7 @@
 
 ;; don't keep message buffers around
 (setq message-kill-buffer-on-exit t)
+
+
 
 (provide 'mail-client)

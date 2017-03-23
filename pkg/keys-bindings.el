@@ -1,5 +1,7 @@
-;;
 ;; Keys bindings.
+
+
+(global-set-key (kbd "TAB") 'my-insert-tab-char) ; same as Ctrl+i
 
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x \\") 'align-regexp)

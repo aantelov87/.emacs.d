@@ -230,16 +230,29 @@ Symbols matching the text at point are put first in the completion list."
 (defadvice sgml-delete-tag (after reindent activate)
   (indent-region (point-min) (point-max)))
 
+;; Insert a tab char
+(defun my-insert-tab-char ()
+  "Insert a tab char. (ASCII 9, \t)"
+  (interactive)
+  (insert "\t"))
 
 (defun my-setup-indent (n)
+
   ;; Turn on tabs
   (setq indent-tabs-mode t)
   (setq-default indent-tabs-mode t)
+  ;; make tab key always call a indent command.
+  (setq-default tab-always-indent t)
+  ;; make tab key do indent first then completion.
+  (setq-default tab-always-indent 'complete)  
 
   ;; Set the tab width
   (setq default-tab-width n)
   (setq tab-width n)
   (setq c-basic-indent n)
+
+  ;; make return key also do indent, globally
+  (electric-indent-mode 1)
   
   ;; java/c/c++
   (setq-local c-basic-offset n)
