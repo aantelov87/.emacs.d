@@ -23,6 +23,7 @@
 (defvar my-packages '(
 		      ;; Emacs extensions
 		      smex
+
 		      idle-highlight-mode
 		      ido-ubiquitous
 		      ido-vertical-mode
@@ -32,6 +33,8 @@
 		      paredit
 		      markdown-mode
 		      mu4e-alert
+		      multiple-cursors
+
 		      ;; Errors reporting
 		      flycheck
 		      flycheck-pos-tip
@@ -88,6 +91,7 @@
 (require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
+(require 'multiple-cursors)
 
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program	 "/usr/local/bin/gpg2"))
@@ -100,13 +104,6 @@
 (eval-after-load 'flycheck
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
-
-;; Smart Tabs
-(autoload 'smart-tabs-mode "smart-tabs-mode"
-  "Intelligently indent with tabs, align with spaces!")
-(autoload 'smart-tabs-mode-enable "smart-tabs-mode")
-(autoload 'smart-tabs-advice "smart-tabs-mode")
-(autoload 'smart-tabs-insinuate "smart-tabs-mode")
 
 ;; Find files in project
 (autoload 'find-file-in-project "find-file-in-project" nil t)

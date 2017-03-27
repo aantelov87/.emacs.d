@@ -49,6 +49,7 @@
       save-interprogram-paste-before-kill t
       apropos-do-all t
       mouse-yank-at-point t
+      column-number-mode t
       require-final-newline t
       visible-bell nil
       load-prefer-newer t

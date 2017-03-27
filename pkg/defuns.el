@@ -248,7 +248,7 @@ Symbols matching the text at point are put first in the completion list."
   ;; make tab key always call a indent command.
   (setq-default tab-always-indent t)
   ;; make tab key do indent first then completion.
-  (setq-default tab-always-indent 'complete)  
+;;  (setq-default tab-always-indent 'complete)  
 
   ;; Set the tab width
   (setq default-tab-width n)
