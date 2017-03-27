@@ -236,6 +236,10 @@ Symbols matching the text at point are put first in the completion list."
   (interactive)
   (insert "\t"))
 
+(defadvice align-regexp (around align-regexp-with-spaces activate)
+  (let ((indent-tabs-mode nil))
+    ad-do-it))
+
 (defun my-setup-indent (n)
 
   ;; Turn on tabs
@@ -251,9 +255,6 @@ Symbols matching the text at point are put first in the completion list."
   (setq tab-width n)
   (setq c-basic-indent n)
 
-  ;; make return key also do indent, globally
-  (electric-indent-mode 1)
-  
   ;; java/c/c++
   (setq-local c-basic-offset n)
   ;; web development

@@ -16,42 +16,41 @@
 ;; Load paths
 (add-to-list 'load-path (expand-file-name "pkg" user-emacs-directory))
 
-; check for new packages (package versions)
+					; check for new packages (package versions)
 (when (not package-archive-contents)
   (package-refresh-contents))
 
 (defvar my-packages '(
-                      ;; Emacs extensions
-                      smex
-                      idle-highlight-mode
-                      ido-ubiquitous
+		      ;; Emacs extensions
+		      smex
+		      idle-highlight-mode
+		      ido-ubiquitous
 		      ido-vertical-mode
 		      ido-at-point
 		      auto-complete
-                      find-file-in-project
-                      paredit
+		      find-file-in-project
+		      paredit
 		      markdown-mode
-		      smart-tabs-mode
-		      mu4e-alert		      
-                      ;; Errors reporting
-                      flycheck
+		      mu4e-alert
+		      ;; Errors reporting
+		      flycheck
 		      flycheck-pos-tip
-		      		      
-                      ;; Version Control
-                      magit ;; git
 
-                      ;; Programming language
-                      php-mode ac-php ;; PHP
-                      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
-                      web-mode scss-mode css-mode ;; HTML, CSS and JS
-                      js2-mode js2-refactor  ;; JS 
-                      ng2-mode typescript tide ;; Typescript && AngularJS
+		      ;; Version Control
+		      magit ;; git
 
-                      ;; Serialization language
-                      protobuf-mode
-                      yaml-mode
-                      json json-reformat json-snatcher ;; json
-                      ))
+		      ;; Programming language
+		      php-mode ac-php ;; PHP
+		      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
+		      web-mode scss-mode css-mode ;; HTML, CSS and JS
+		      js2-mode js2-refactor  ;; JS
+		      ng2-mode typescript tide ;; Typescript && AngularJS
+
+		      ;; Serialization language
+		      protobuf-mode
+		      yaml-mode
+		      json json-reformat json-snatcher ;; json
+		      ))
 
 (when is-mac
   (add-to-list 'my-packages 'exec-path-from-shell))
@@ -89,10 +88,9 @@
 (require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
-;; (require 'smart-tabs-mode)
 
 (require 'epa-file)
-(custom-set-variables '(epg-gpg-program  "/usr/local/bin/gpg2"))
+(custom-set-variables '(epg-gpg-program	 "/usr/local/bin/gpg2"))
 (epa-file-enable)
 
 (require 'mail-client)
@@ -119,10 +117,10 @@
 (autoload 'ffip-ivy-resume "find-file-in-project" nil t)
 (setq-local ffip-prune-patterns '("*/.git/*" "*/node_modules/*" "*/.DS_Store/*" "*/bower_components/*"))
 (setq-local ffip-filename-rules
-            '(;; first, search by the original file name
-              ffip-filename-identity
-              ;; second, apply either below rule
-              (ffip-filename-dashes-to-camelcase ffip-filename-camelcase-to-dashes)))
+	    '(;; first, search by the original file name
+	      ffip-filename-identity
+	      ;; second, apply either below rule
+	      (ffip-filename-dashes-to-camelcase ffip-filename-camelcase-to-dashes)))
 
 ;; Smart M-x is smart
 (require 'smex)
@@ -175,7 +173,7 @@
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)
 
-(require 'js2-mode)     ;; Javascript
+(require 'js2-mode)	;; Javascript
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
