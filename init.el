@@ -16,14 +16,13 @@
 ;; Load paths
 (add-to-list 'load-path (expand-file-name "pkg" user-emacs-directory))
 
-					; check for new packages (package versions)
+;; check for new packages (package versions)
 (when (not package-archive-contents)
   (package-refresh-contents))
 
 (defvar my-packages '(
 		      ;; Emacs extensions
 		      smex
-
 		      idle-highlight-mode
 		      ido-ubiquitous
 		      ido-vertical-mode
@@ -34,10 +33,14 @@
 		      markdown-mode
 		      mu4e-alert
 		      multiple-cursors
+		      mu4e-alert
 
 		      ;; Errors reporting
 		      flycheck
 		      flycheck-pos-tip
+
+		      ;; Ctags
+		      ctags-update
 
 		      ;; Version Control
 		      magit ;; git
@@ -54,6 +57,7 @@
 		      yaml-mode
 		      json json-reformat json-snatcher ;; json
 		      ))
+
 
 (when is-mac
   (add-to-list 'my-packages 'exec-path-from-shell))
@@ -170,7 +174,7 @@
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)
 
-(require 'js2-mode)	;; Javascript
+(require 'js2-mode) ;; Javascript
 (require 'js2-refactor)
 (add-hook 'js2-mode-hook #'js2-refactor-mode)
 

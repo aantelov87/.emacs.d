@@ -48,6 +48,7 @@
       x-select-enable-primary t
       save-interprogram-paste-before-kill t
       apropos-do-all t
+      column-number-mode t
       mouse-yank-at-point t
       column-number-mode t
       require-final-newline t
@@ -96,16 +97,15 @@
     ))
 (setq whitespace-style '(face tabs trailing tab-mark))
 (set-face-attribute 'whitespace-tab nil
-                    :background "#FFFFFF"
-                    :foreground "#FF0000" ;;"#00a8a8"
-                    :weight 'normal)
+		    :background "#FFFFFF"
+		    :foreground "#FF0000" ;;"#00a8a8"
+		    :weight 'normal)
 (set-face-attribute 'whitespace-trailing nil
-                    :background "#FF0000"
+		    :background "#FF0000"
                     :foreground "#FF0000" ;;"#183bc8"
                     :weight 'normal)
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
-;; make return key also do indent, globally
-(electric-indent-mode 1)
+(set-background-color "#FFFFFF")
 
 (provide 'defaults)
