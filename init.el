@@ -48,7 +48,7 @@
 		      ;; Programming language
 		      php-mode ac-php ;; PHP
 		      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
-		      web-mode scss-mode css-mode ;; HTML, CSS and JS
+		      web-mode scss-mode ;; HTML, CSS and JS
 		      js2-mode js2-refactor  ;; JS
 		      ng2-mode typescript tide ;; Typescript && AngularJS
 
@@ -85,9 +85,6 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-;; No splash screen please ... jeez
-(setq inhibit-startup-message t)
-
 ;; Load core modules && defined functions
 (require 'tramp)
 (require 'flycheck)
@@ -98,7 +95,7 @@
 (require 'multiple-cursors)
 
 (require 'epa-file)
-(custom-set-variables '(epg-gpg-program	 "/usr/local/bin/gpg2"))
+(custom-set-variables '(epg-gpg-program "/usr/local/bin/gpg2"))
 (epa-file-enable)
 
 (require 'mail-client)
@@ -199,8 +196,8 @@
 
 (add-hook 'js-mode-hook 'js-mode-bindings)
 (add-hook 'js2-mode-hook 'js-mode-bindings)
+(require 'coding-hook)
 
-(add-hook 'prog-mode-hook 'my-code-style)
 
 ;; Keys Bindings
 (require 'keys-bindings)

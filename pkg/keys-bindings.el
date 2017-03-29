@@ -1,8 +1,5 @@
 ;; Keys bindings.
 
-
-;;(global-set-key (kbd "TAB") 'my-insert-tab-char) ; same as Ctrl+i
-
 ;; Align your code in a pretty way.
 (global-set-key (kbd "C-x \\") 'align-regexp)
 
@@ -51,12 +48,8 @@
 ;; Help should search more than just commands
 (global-set-key (kbd "C-h a") 'apropos)
 
-;; For debugging Emacs modes
-(global-set-key (kbd "C-c p") 'message-point)
-
 ;; So good!
 (global-set-key (kbd "C-x g") 'magit-status)
-
 
 ;; Magit C-c C-a to amend without any prompt
 (defun magit-just-amend ()

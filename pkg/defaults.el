@@ -22,9 +22,6 @@
 (show-paren-mode 1)
 (setq-default word-wrap t)
 
-;; No splash screen please ... jeez
-(setq inhibit-startup-message t)
-
 ;; Write backup files to own directory
 ;; store all backup and autosave files in the tmp dir
 (setq backups-dir
@@ -43,7 +40,6 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
-
 (setq x-select-enable-clipboard t
       x-select-enable-primary t
       save-interprogram-paste-before-kill t
@@ -54,6 +50,7 @@
       require-final-newline t
       visible-bell nil
       load-prefer-newer t
+      inhibit-startup-message t ;; No splash screen please ... jeez
       ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; Sane
@@ -65,7 +62,7 @@
 (set-selection-coding-system 'utf-8) ; please
 (prefer-coding-system 'utf-8) ; with sugar on top
 
-; Auto refresh buffers
+					; Auto refresh buffers
 (global-auto-revert-mode 1)
 
 ;; Also auto refresh dired, but be quiet about it
@@ -91,10 +88,10 @@
 (require 'whitespace)
 (global-whitespace-mode t)
 (setq whitespace-display-mappings
-   ;; all numbers are Unicode codepoint in decimal. try (insert-char 182 ) to see it
-  '(
-    (tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
-    ))
+      ;; all numbers are Unicode codepoint in decimal. try (insert-char 182 ) to see it
+      '(
+	(tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
+	))
 (setq whitespace-style '(face tabs trailing tab-mark))
 (set-face-attribute 'whitespace-tab nil
 		    :background "#FFFFFF"
@@ -104,7 +101,13 @@
 		    :background "#FF0000"
                     :foreground "#FF0000" ;;"#183bc8"
                     :weight 'normal)
+
 (add-hook 'prog-mode-hook 'whitespace-mode)
+
+;; Identation default values
+(setq default-tab-width 8)
+(setq tab-width 8)
+
 
 (set-background-color "#FFFFFF")
 
