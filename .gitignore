@@ -21,3 +21,4 @@ ac-comphist.dat
 .backups/*
 .places/*
 !*.gitkeep
+config/mail-accounts.el

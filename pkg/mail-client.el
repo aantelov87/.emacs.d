@@ -3,17 +3,17 @@
 ;; don't save message to Sent Messages, Gmail/IMAP takes care of this
 (setq mu4e-sent-messages-behavior 'delete)
 
-;; (See the documentation for `mu4e-sent-messages-behavior' if you have
+;; (See the documentation for 'mu4e-sent-messages-behavior' if you have
 ;; additional non-Gmail addresses and want assign them different
 ;; behavior.)
 
 ;; setup some handy shortcuts
-;; you can quickly switch to your Inbox -- press ``ji''
+;; you can quickly switch to your Inbox -- press ''ji''
 ;; then, when you want archive some messages, move them to
-;; the 'All Mail' folder by pressing ``ma''.
+;; the 'All Mail' folder by pressing ''ma''.
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap")
+(setq mu4e-get-mail-command "mbsync -a")
 
 ;; Function to set account based on configuration
 (defun my-mu4e-set-account ()
@@ -35,10 +35,12 @@
               account-vars)
       (error "No email account found"))))
 
+
+
 (add-hook 'mu4e-compose-pre-hook 'my-mu4e-set-account)
 
 ;; allow for updating mail using 'U' in the main view:
-(setq mu4e-get-mail-command "offlineimap"
+(setq mu4e-get-mail-command "mbsync -a"
       mu4e-update-interval 120)
 
 ;; don't keep message buffers around
@@ -50,6 +52,23 @@
 (mu4e-alert-set-default-style 'notifier))
 (add-hook 'after-init-hook #'mu4e-alert-enable-notifications)
 (add-hook 'after-init-hook #'mu4e-alert-enable-mode-line-display)
+
+(require 'gnus-dired)
+;; make the `gnus-dired-mail-buffers' function also work on
+;; message-mode derived modes, such as mu4e-compose-mode
+(defun gnus-dired-mail-buffers ()
+  "Return a list of active message buffers."
+  (let (buffers)
+    (save-current-buffer
+      (dolist (buffer (buffer-list t))
+        (set-buffer buffer)
+        (when (and (derived-mode-p 'message-mode)
+                (null message-sent-message-via))
+          (push (buffer-name buffer) buffers))))
+    (nreverse buffers)))
+
+(setq gnus-dired-mail-mode 'mu4e-user-agent)
+(add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
 
 (provide 'mail-client)

@@ -92,23 +92,25 @@
       '(
 	(tab-mark 9 [187 9] [9655 9] [92 9]) ; 9 TAB, 9655 WHITE RIGHT-POINTING TRIANGLE 「▷」
 	))
-(setq whitespace-style '(face tabs trailing tab-mark))
+(setq whitespace-style '(face trailing tabs tab-mark identation))
 (set-face-attribute 'whitespace-tab nil
 		    :background "#FFFFFF"
 		    :foreground "#FF0000" ;;"#00a8a8"
 		    :weight 'normal)
 (set-face-attribute 'whitespace-trailing nil
-		    :background "#FF0000"
-                    :foreground "#FF0000" ;;"#183bc8"
-                    :weight 'normal)
+		:background "#FF0000"
+		:foreground "#FF0000" ;;"#183bc8"
+		:weight 'normal)
 
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
+
 ;; Identation default values
-(setq default-tab-width 8)
-(setq tab-width 8)
+;; (setq default-tab-width 8)
+;; (setq tab-width 8)
 
-
-(set-background-color "#FFFFFF")
+(setq default-frame-alist
+      (append default-frame-alist
+	      '((background-color . "#FFFFFF"))))
 
 (provide 'defaults)

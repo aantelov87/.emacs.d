@@ -1,5 +1,7 @@
 (setq is-mac (equal system-type 'darwin))
-(set-default-font "Monaco 16")
+(setq default-frame-alist
+      (append default-frame-alist
+	      '((font . "Monaco 16"))))
 
 ;; Initialization
 (require 'package)
@@ -15,6 +17,7 @@
 
 ;; Load paths
 (add-to-list 'load-path (expand-file-name "pkg" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "config" user-emacs-directory))
 
 ;; check for new packages (package versions)
 (when (not package-archive-contents)
@@ -48,7 +51,7 @@
 		      ;; Programming language
 		      php-mode ac-php ;; PHP
 		      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
-		      web-mode scss-mode ;; HTML, CSS and JS
+		      web-mode scss-mode css-mode ;; HTML, CSS and JS
 		      js2-mode js2-refactor  ;; JS
 		      ng2-mode typescript tide ;; Typescript && AngularJS
 
@@ -73,7 +76,10 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
   (require 'exec-path-from-shell)
-  (set-default-font "Monaco 14")
+  (setq default-frame-alist
+      (append default-frame-alist
+	      '((font . "Monaco 14"))))
+
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-env "GOPATH")
   ;; Don't open files from the workspace in a new frame
@@ -95,9 +101,10 @@
 (require 'multiple-cursors)
 
 (require 'epa-file)
-(custom-set-variables '(epg-gpg-program "/usr/local/bin/gpg2"))
+(custom-set-variables '(epg-gpg-program "gpg2"))
 (epa-file-enable)
 
+(require 'mail-accounts)
 (require 'mail-client)
 
 (global-flycheck-mode 1)
@@ -173,19 +180,21 @@
 
 (require 'js2-mode) ;; Javascript
 (require 'js2-refactor)
-(add-hook 'js2-mode-hook #'js2-refactor-mode)
+(add-hook 'js2-mode-hook 'js2-refactor-mode)
 
 (require 'typescript) ;; Typescript && Angular
 (require 'tide)
 (require 'ng2-mode)
 
-(setq tide-tsserver-executable "node_modules/typescript/bin/tsserver")
+(setq tide-tsserver-executable "tsserver")
 (setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
 
 ;; formats the buffer before saving
 (add-hook 'before-save-hook 'tide-format-before-save)
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
-(add-hook 'js2-mode-hook #'setup-tide-mode)
+(add-hook 'typescript-mode-hook 'setup-tide-mode)
+(add-hook 'js2-mode-hook 'setup-tide-mode)
+(add-hook 'js-mode-hook 'js-mode-bindings)
+(add-hook 'js2-mode-hook 'js-mode-bindings)
 
 ;; Load modules for encoding formats (json, yaml-mode, proto)
 (require 'protobuf-mode)
@@ -194,8 +203,6 @@
 (require 'json-reformat)
 (require 'json-snatcher)
 
-(add-hook 'js-mode-hook 'js-mode-bindings)
-(add-hook 'js2-mode-hook 'js-mode-bindings)
 (require 'coding-hook)
 
 
