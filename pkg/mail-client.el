@@ -71,4 +71,16 @@
 (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode)
 
 
+; use msmtp
+(setq message-send-mail-function 'message-send-mail-with-sendmail)
+(setq sendmail-program "/usr/local/bin/msmtp")
+; tell msmtp to choose the SMTP server according to the from field in the outgoing email
+(setq message-sendmail-extra-arguments '("--read-envelope-from"))
+(setq message-sendmail-f-is-evil 't)
+
+(setq mu4e-maildir "~/Maildir")
+(setq mu4e-drafts-folder "/local/drafts")
+(setq mu4e-sent-folder   "/local/sent")
+(setq mu4e-trash-folder  "/local/trash")
+
 (provide 'mail-client)
