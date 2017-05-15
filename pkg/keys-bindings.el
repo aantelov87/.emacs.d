@@ -1,4 +1,7 @@
 ;; Keys bindings.
+(setq mac-command-modifier 'control)
+(setq mac-option-modifier 'meta) ; set alt-key to meta
+(setq mac-escape-modifier nil) ; set esc-key to nil
 
 ;; Completion that uses many different methods to find options.
 (global-set-key (kbd "M-/") 'hippie-expand)
