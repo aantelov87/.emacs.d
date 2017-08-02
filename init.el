@@ -1,3 +1,5 @@
+;;; Emacs init.el
+
 (setq is-mac (equal system-type 'darwin))
 (setq default-frame-alist
       (append default-frame-alist
@@ -37,7 +39,8 @@
 		      mu4e-alert
 		      multiple-cursors
 		      mu4e-alert
-
+		      yasnippet
+                      exec-path-from-shell
 		      ;; Errors reporting
 		      flycheck
 		      flycheck-pos-tip
@@ -62,26 +65,20 @@
 		      ))
 
 
-(when is-mac
-  (add-to-list 'my-packages 'exec-path-from-shell))
-
 ;; install the missing packages
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
+
 (when is-mac
-  (add-to-list 'my-packages 'exec-path-from-shell)
   (setq mac-option-modifier 'super)
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
-  (require 'exec-path-from-shell)
   (setq default-frame-alist
       (append default-frame-alist
 	      '((font . "Monaco 14"))))
 
-  (exec-path-from-shell-initialize)
-  (exec-path-from-shell-copy-env "GOPATH")
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
   ;; Use aspell for spell checking: brew install aspell --lang=en
@@ -91,7 +88,12 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
+
 ;; Load core modules && defined functions
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "GOPATH")
+
 (require 'tramp)
 (require 'flycheck)
 (require 'flycheck-pos-tip)
@@ -100,12 +102,20 @@
 (require 'find-file-in-project)
 (require 'multiple-cursors)
 
+(require 'yasnippet)
+(yas-global-mode 1)
+
+;; Completation mode
+(require 'auto-complete)
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode)
+(setq ac-auto-start nil)
+(ac-set-trigger-key "TAB")
+
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program "gpg2"))
 (epa-file-enable)
-
-(require 'mail-accounts)
-(require 'mail-client)
 
 (global-flycheck-mode 1)
 (setq flycheck-checker-error-threshold 20000)
@@ -142,10 +152,6 @@
 (ido-ubiquitous-use-new-completing-read webjump 'webjump)
 (ido-ubiquitous-use-new-completing-read yas/expand 'yasnippet)
 (ido-ubiquitous-use-new-completing-read yas/visit-snippet-file 'yasnippet)
-
-;; Completation mode
-(require 'auto-complete)
-(global-auto-complete-mode t)
 
 ;; Load modules for PHP and GOLANG
 (require 'php-mode) ;; PHP

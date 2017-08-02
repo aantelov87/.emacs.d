@@ -104,11 +104,6 @@
 
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
-
-;; Identation default values
-;; (setq default-tab-width 8)
-;; (setq tab-width 8)
-
 (setq default-frame-alist
       (append default-frame-alist
 	      '((background-color . "#FFFFFF"))))
