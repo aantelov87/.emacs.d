@@ -102,15 +102,6 @@
 	(when (string-equal "tsx" (file-name-extension buffer-file-name))
 		(setup-tide-mode)))
 
-
-;; Func for ido-mode
-(defmacro ido-ubiquitous-use-new-completing-read (cmd package)
-	`(eval-after-load ,package
-		 '(defadvice ,cmd (around ido-ubiquitous-new activate)
-	(let ((ido-ubiquitous-enable-compatibility nil))
-		ad-do-it))))
-
-
 ;; after deleting a tag, indent properly
 (defadvice sgml-delete-tag (after reindent activate)
 	(indent-region (point-min) (point-max)))

@@ -3,7 +3,7 @@
 (setq is-mac (equal system-type 'darwin))
 (setq default-frame-alist
       (append default-frame-alist
-	      '((font . "Monaco 16"))))
+	      '((font . "Monaco 20"))))
 
 ;; Initialization
 (require 'package)
@@ -29,16 +29,14 @@
 		      ;; Emacs extensions
 		      smex
 		      idle-highlight-mode
-		      ido-ubiquitous
+		      ido-completing-read+
 		      ido-vertical-mode
 		      ido-at-point
 		      auto-complete
 		      find-file-in-project
 		      paredit
 		      markdown-mode
-		      mu4e-alert
 		      multiple-cursors
-		      mu4e-alert
 		      yasnippet
                       exec-path-from-shell
 		      ;; Errors reporting
@@ -77,8 +75,7 @@
   (setq ns-function-modifier 'hyper)
   (setq default-frame-alist
       (append default-frame-alist
-	      '((font . "Monaco 14"))))
-
+             '((font . "Monaco 20"))))
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
   ;; Use aspell for spell checking: brew install aspell --lang=en
@@ -146,12 +143,8 @@
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 
 ;; Use ido everywhere
-(require 'ido-ubiquitous)
+(require 'ido-completing-read+)
 (ido-ubiquitous-mode 1)
-
-(ido-ubiquitous-use-new-completing-read webjump 'webjump)
-(ido-ubiquitous-use-new-completing-read yas/expand 'yasnippet)
-(ido-ubiquitous-use-new-completing-read yas/visit-snippet-file 'yasnippet)
 
 ;; Load modules for PHP and GOLANG
 (require 'php-mode) ;; PHP

@@ -20,5 +20,6 @@ custom.el
 ac-comphist.dat
 .backups/*
 .places/*
+smex-items
 !*.gitkeep
 config/mail-accounts.el
