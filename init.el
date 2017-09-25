@@ -61,13 +61,13 @@
 		      yaml-mode
 		      json json-reformat json-snatcher ;; json
 		      ))
-
-
 ;; install the missing packages
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
 
+(exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "GOPATH")
 
 (when is-mac
   (setq mac-option-modifier 'super)
@@ -147,8 +147,10 @@
 (ido-ubiquitous-mode 1)
 
 ;; Load modules for PHP and GOLANG
+(require 'phpfmt)
 (require 'php-mode) ;; PHP
 (add-hook 'php-mode-hook 'my-php-mode-hook)
+(add-hook 'before-save-hook 'phpfmt-before-save)
 
 ;;Load Go-specific language syntax
 (add-hook 'go-mode-hook 'go-mode-setup)
@@ -177,10 +179,12 @@
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)
 
+
 (require 'js2-mode) ;; Javascript
 (require 'js2-refactor)
+(require 'jsfmt)
 (add-hook 'js2-mode-hook 'js2-refactor-mode)
-
+(add-hook 'before-save-hook 'jsfmt-before-save)
 (require 'typescript) ;; Typescript && Angular
 (require 'tide)
 (require 'ng2-mode)

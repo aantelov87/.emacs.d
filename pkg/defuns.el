@@ -16,8 +16,7 @@
 (defun cleanup-buffer ()
 	"Perform a bunch of operations on the whitespace content of a buffer."
 	(interactive)
-	(whitespace-cleanup)
-	(indent-buffer))
+	(whitespace-cleanup))
 
 (eval-after-load 'paredit
 	'(add-to-list 'paredit-space-for-delimiter-predicates

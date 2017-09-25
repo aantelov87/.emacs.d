@@ -19,5 +19,6 @@
 (add-hook 'js2-mode-hook 'run-coding-hook)
 (add-hook 'sgml-mode-hook 'run-coding-hook)
 (add-hook 'clojure-mode-hook 'run-coding-hook)
+(add-hook 'protobuf-mode-hook 'run-coding-hook)
 
 (provide 'coding-hook)
