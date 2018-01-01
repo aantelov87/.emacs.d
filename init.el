@@ -42,19 +42,15 @@
 		      ;; Errors reporting
 		      flycheck
 		      flycheck-pos-tip
-
 		      ;; Ctags
 		      ctags-update
-
 		      ;; Version Control
 		      magit ;; git
-
 		      ;; Programming language
 		      php-mode ac-php ;; PHP
 		      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
+		      dart-mode
 		      web-mode scss-mode css-mode ;; HTML, CSS and JS
-		      js2-mode js2-refactor  ;; JS
-		      ng2-mode typescript tide ;; Typescript && AngularJS
 
 		      ;; Serialization language
 		      protobuf-mode
@@ -65,9 +61,6 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-
-(exec-path-from-shell-initialize)
-(exec-path-from-shell-copy-env "GOPATH")
 
 (when is-mac
   (setq mac-option-modifier 'super)
@@ -101,14 +94,6 @@
 
 (require 'yasnippet)
 (yas-global-mode 1)
-
-;; Completation mode
-(require 'auto-complete)
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode)
-(setq ac-auto-start nil)
-(ac-set-trigger-key "TAB")
 
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program "gpg2"))
@@ -156,13 +141,18 @@
 (add-hook 'go-mode-hook 'go-mode-setup)
 
 ;;Load auto-complete
-(ac-config-default)
-(require 'auto-complete-config)
+;; Completation mode
+(require 'auto-complete)
 (require 'go-autocomplete)
+(require 'auto-complete-config)
+(ac-config-default)
 
 ;; If the go-guru.el file is in the load path, this will load it.
 (require 'go-guru)
 
+;; Dart mode configuration
+(setq dart-enable-analysis-server t)
+(add-hook 'dart-mode-hook 'flycheck-mode)
 
 ;; Load modules for HTML, CSS and JS
 (eval-after-load "sgml-mode"
