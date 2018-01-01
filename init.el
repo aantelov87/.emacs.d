@@ -50,7 +50,7 @@
 		      php-mode ac-php ;; PHP
 		      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
 		      dart-mode
-		      web-mode scss-mode css-mode ;; HTML, CSS and JS
+		      web-mode scss-mode css-mode ;; HTML, CSS 
 
 		      ;; Serialization language
 		      protobuf-mode
@@ -168,26 +168,6 @@
 
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)
-
-
-(require 'js2-mode) ;; Javascript
-(require 'js2-refactor)
-(require 'jsfmt)
-(add-hook 'js2-mode-hook 'js2-refactor-mode)
-(add-hook 'before-save-hook 'jsfmt-before-save)
-(require 'typescript) ;; Typescript && Angular
-(require 'tide)
-(require 'ng2-mode)
-
-(setq tide-tsserver-executable "tsserver")
-(setq tide-tsserver-process-environment '("TSS_LOG=-level verbose -file /tmp/tss.log"))
-
-;; formats the buffer before saving
-(add-hook 'before-save-hook 'tide-format-before-save)
-(add-hook 'typescript-mode-hook 'setup-tide-mode)
-(add-hook 'js2-mode-hook 'setup-tide-mode)
-(add-hook 'js-mode-hook 'js-mode-bindings)
-(add-hook 'js2-mode-hook 'js-mode-bindings)
 
 ;; Load modules for encoding formats (json, yaml-mode, proto)
 (require 'protobuf-mode)
