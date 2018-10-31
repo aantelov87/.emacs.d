@@ -53,7 +53,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; Funcs for golang
 (defun go-mode-setup ()
-  (setq compile-command "go vet && errcheck && go test -v && go build -v")
+  (setq compile-command "errcheck && go test -v && go build -v")
   (define-key (current-local-map) "\C-c\C-c" 'compile)
   (go-eldoc-setup)
   (setq gofmt-command "goimports")
@@ -94,19 +94,6 @@ Including indent-buffer, which should not be called automatically on save."
     (local-set-key (kbd "C-c C-g") 'jsons-print-path)))
 
 
-;; Func for typescript mode
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1))
-
-(defun extension-tide-mode ()
-  (when (string-equal "tsx" (file-name-extension buffer-file-name))
-    (setup-tide-mode)))
-
 ;; after deleting a tag, indent properly
 (defadvice sgml-delete-tag (after reindent activate)
   (indent-region (point-min) (point-max)))
@@ -144,7 +131,6 @@ Including indent-buffer, which should not be called automatically on save."
   (setq web-mode-style-padding 0)
 
 
-  (setq-local coffee-tab-width n) ; coffeescript
   (setq-local javascript-indent-level n) ; javascript-mode
   (setq-local js-indent-level n) ; js-mode
   (setq-local js2-basic-offset n) ; js2-mode, in latest js2-mode, it's alias of js-indent-level

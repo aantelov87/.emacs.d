@@ -35,6 +35,7 @@
                       auto-complete
                       find-file-in-project
                       paredit
+		      tagedit
                       markdown-mode
                       multiple-cursors
                       yasnippet
@@ -50,7 +51,7 @@
                       magit ;; git
                       ;; Programming language
                       php-mode ac-php ;; PHP
-                      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
+                      go-mode go-eldoc go-autocomplete gotest go-add-tags go-rename go-guru ;; golang
                       dart-mode
                       web-mode scss-mode css-mode ;; HTML, CSS
 
@@ -141,8 +142,8 @@
 (ido-ubiquitous-mode 1)
 
 ;; Load modules for PHP and GOLANG
-(require 'phpfmt)
-(require 'php-mode) ;; PHP
+;; (require 'phpfmt)
+;; (require 'php-mode) ;; PHP
 (add-hook 'php-mode-hook 'my-php-mode-hook)
 (add-hook 'before-save-hook 'phpfmt-before-save)
 
@@ -174,7 +175,6 @@
 
 (require 'web-mode) ;; General web development
 (require 'setup-html)
-(add-hook 'web-mode-hook 'extension-tide-mode)
 
 (require 'scss-mode) ;; CSS and SCSS
 (require 'css-mode)

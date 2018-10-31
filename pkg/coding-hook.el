@@ -9,12 +9,10 @@
 (add-hook 'coding-hook 'run-indent)
 
 (add-hook 'php-mode-hook 'run-coding-hook)
-(add-hook 'c-mode-hook 'run-coding-hook)
 (add-hook 'scss-mode-hook 'run-coding-hook)
 (add-hook 'css-mode-hook 'run-coding-hook)
 (add-hook 'go-mode-hook 'run-coding-hook)
 (add-hook 'web-mode-hook 'run-coding-hook)
-(add-hook 'typescript-mode-hook 'run-coding-hook)
 (add-hook 'js-mode-hook 'run-coding-hook)
 (add-hook 'js2-mode-hook 'run-coding-hook)
 (add-hook 'sgml-mode-hook 'run-coding-hook)
