@@ -3,7 +3,7 @@
 (setq is-mac (equal system-type 'darwin))
 (setq default-frame-alist
       (append default-frame-alist
-	      '((font . "Monaco 20"))))
+              '((font . "Monaco 20"))))
 
 ;; Initialization
 (require 'package)
@@ -26,37 +26,39 @@
   (package-refresh-contents))
 
 (defvar my-packages '(
-		      ;; Emacs extensions
-		      smex
-		      idle-highlight-mode
-		      ido-completing-read+
-		      ido-vertical-mode
-		      ido-at-point
-		      auto-complete
-		      find-file-in-project
-		      paredit
-		      markdown-mode
-		      multiple-cursors
-		      yasnippet
+                      ;; Emacs extensions
+                      smex
+                      idle-highlight-mode
+                      ido-completing-read+
+                      ido-vertical-mode
+                      ido-at-point
+                      auto-complete
+                      find-file-in-project
+                      paredit
+                      markdown-mode
+                      multiple-cursors
+                      yasnippet
                       exec-path-from-shell
-		      ;; Errors reporting
-		      flycheck
-		      flycheck-pos-tip
-		      ;; Ctags
-		      ctags-update
-		      ;; Version Control
-		      magit ;; git
-		      ;; Programming language
-		      php-mode ac-php ;; PHP
-		      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
-		      dart-mode
-		      web-mode scss-mode css-mode ;; HTML, CSS 
+                      dired-details
+                      expand-region
+                      ;; Errors reporting
+                      flycheck
+                      flycheck-pos-tip
+                      ;; Ctags
+                      ctags-update
+                      ;; Version Control
+                      magit ;; git
+                      ;; Programming language
+                      php-mode ac-php ;; PHP
+                      go-mode go-eldoc go-autocomplete gotest go-guru ;; golang
+                      dart-mode
+                      web-mode scss-mode css-mode ;; HTML, CSS
 
-		      ;; Serialization language
-		      protobuf-mode
-		      yaml-mode
-		      json json-reformat json-snatcher ;; json
-		      ))
+                      ;; Serialization language
+                      protobuf-mode
+                      yaml-mode
+                      json json-reformat json-snatcher ;; json
+                      ))
 ;; install the missing packages
 (dolist (p my-packages)
   (when (not (package-installed-p p))
@@ -67,8 +69,8 @@
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
   (setq default-frame-alist
-      (append default-frame-alist
-             '((font . "Monaco 20"))))
+        (append default-frame-alist
+                '((font . "Monaco 20"))))
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
   ;; Use aspell for spell checking: brew install aspell --lang=en
@@ -82,7 +84,7 @@
 ;; Load core modules && defined functions
 (require 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
-(exec-path-from-shell-copy-env "GOPATH")
+(exec-path-from-shell-copy-env "PATH")
 
 (require 'tramp)
 (require 'flycheck)
@@ -95,6 +97,9 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
+(require 'expand-region)
+
+;; Dired element
 (require 'epa-file)
 (custom-set-variables '(epg-gpg-program "gpg2"))
 (epa-file-enable)
@@ -114,17 +119,21 @@
 (autoload 'ffip-ivy-resume "find-file-in-project" nil t)
 (setq-local ffip-prune-patterns '("*/.git/*" "*/node_modules/*" "*/.DS_Store/*" "*/bower_components/*"))
 (setq-local ffip-filename-rules
-	    '(;; first, search by the original file name
-	      ffip-filename-identity
-	      ;; second, apply either below rule
-	      (ffip-filename-dashes-to-camelcase ffip-filename-camelcase-to-dashes)))
+            '(;; first, search by the original file name
+              ffip-filename-identity
+              ;; second, apply either below rule
+              (ffip-filename-dashes-to-camelcase ffip-filename-camelcase-to-dashes)))
 
 ;; Smart M-x is smart
 (require 'smex)
 (smex-initialize)
 
+;; Dired
+(require 'setup-dired)
+
 ;; Git mode settings
 (require 'magit)
+(require 'setup-magit)
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 
 ;; Use ido everywhere
@@ -151,7 +160,7 @@
 (require 'go-guru)
 
 ;; Dart mode configuration
-(setq dart-enable-analysis-server t)
+(setq dart-format-on-save t)
 (add-hook 'dart-mode-hook 'flycheck-mode)
 
 ;; Load modules for HTML, CSS and JS
@@ -164,6 +173,7 @@
        [remap backward-paragraph] 'skip-to-previous-blank-line)))
 
 (require 'web-mode) ;; General web development
+(require 'setup-html)
 (add-hook 'web-mode-hook 'extension-tide-mode)
 
 (require 'scss-mode) ;; CSS and SCSS
@@ -183,3 +193,5 @@
 (require 'keys-bindings)
 (require 'mode-mappings)
 ;;; init.el ends here
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
