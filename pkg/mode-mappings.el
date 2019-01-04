@@ -21,6 +21,11 @@
 (add-to-list 'auto-mode-alist '("\\.html\\.twig\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+
+(setq web-mode-engines-alist
+      '(("go"    . "\\.tmpl\\'")
+)
 
 ;; SVG
 (add-to-list 'auto-mode-alist '("\\.svg$" . image-mode))

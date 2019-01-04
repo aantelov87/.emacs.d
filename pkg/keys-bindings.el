@@ -50,6 +50,12 @@
 ;; So good!
 (global-set-key (kbd "C-x g") 'magit-status)
 
+(define-key go-mode-map (kbd "C-x f") 'go-test-current-file)
+(define-key go-mode-map (kbd "C-x t") 'go-test-current-test)
+(define-key go-mode-map (kbd "C-x p") 'go-test-current-project)
+(define-key go-mode-map (kbd "C-c b") 'go-test-current-benchmark)
+(define-key go-mode-map (kbd "C-x x") 'go-run)
+
 ;; Magit C-c C-a to amend without any prompt
 (defun magit-just-amend ()
   (interactive)

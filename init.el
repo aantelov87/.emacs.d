@@ -51,10 +51,9 @@
                       magit ;; git
                       ;; Programming language
                       php-mode ac-php ;; PHP
-                      go-mode go-eldoc go-autocomplete gotest go-add-tags go-rename go-guru ;; golang
+                      go-mode go-eldoc go-autocomplete gotest go-add-tags go-rename go-guru go-gen-test;; golang
                       dart-mode
                       web-mode scss-mode css-mode ;; HTML, CSS
-
                       ;; Serialization language
                       protobuf-mode
                       yaml-mode
@@ -159,6 +158,14 @@
 
 ;; If the go-guru.el file is in the load path, this will load it.
 (require 'go-guru)
+(require 'gotest)
+(require 'go-gen-test)
+(defun my-go-gen-test-setup ()
+  "My keybindings for generating go tests."
+  (interactive)
+  (local-set-key (kbd "C-c C-g") #'go-gen-test-dwim))
+
+(add-hook 'go-mode-hook #'my-go-gen-test-setup)
 
 ;; Dart mode configuration
 (setq dart-format-on-save t)
