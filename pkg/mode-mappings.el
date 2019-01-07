@@ -11,6 +11,8 @@
 (add-to-list 'auto-mode-alist '("\\.restclient$" . restclient-mode))
 
 ;; HTML
+(setq web-mode-engines-alist
+      '(("go" . "\\.tmpl\\'")))
 (add-to-list 'auto-mode-alist '("\\.html\\'" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.tag$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.vm$" . html-mode))
@@ -23,9 +25,6 @@
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
 
-(setq web-mode-engines-alist
-      '(("go"    . "\\.tmpl\\'")
-)
 
 ;; SVG
 (add-to-list 'auto-mode-alist '("\\.svg$" . image-mode))
@@ -49,3 +48,4 @@
 
 
 (provide 'mode-mappings)
+;;; mode-mappings.el ends here
