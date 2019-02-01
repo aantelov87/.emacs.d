@@ -104,8 +104,6 @@
 
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
-(setq default-frame-alist
-      (append default-frame-alist
-	      '((background-color . "#FFFFFF"))))
+(set-background-color "#FFFFFF")
 
 (provide 'defaults)

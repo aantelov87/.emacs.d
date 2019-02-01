@@ -40,6 +40,7 @@
                       multiple-cursors
                       yasnippet
                       exec-path-from-shell
+
                       dired-details
                       expand-region
                       ;; Errors reporting
@@ -49,6 +50,8 @@
                       ctags-update
                       ;; Version Control
                       magit ;; git
+                      restclient
+                      nginx-mode
                       ;; Programming language
                       php-mode ac-php ;; PHP
                       go-mode go-eldoc go-autocomplete gotest go-add-tags go-rename go-guru go-gen-test;; golang
@@ -80,7 +83,7 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
-
+(require 'defaults)
 ;; Load core modules && defined functions
 (require 'exec-path-from-shell)
 (exec-path-from-shell-initialize)
@@ -89,20 +92,15 @@
 (require 'tramp)
 (require 'flycheck)
 (require 'flycheck-pos-tip)
-(require 'defaults)
 (require 'defuns)
 (require 'find-file-in-project)
 (require 'multiple-cursors)
-
+(require 'restclient)
+(require 'nginx-mode)
 (require 'yasnippet)
 (yas-global-mode 1)
 
 (require 'expand-region)
-
-;; Dired element
-(require 'epa-file)
-(custom-set-variables '(epg-gpg-program "gpg2"))
-(epa-file-enable)
 
 (global-flycheck-mode 1)
 (setq flycheck-checker-error-threshold 20000)
