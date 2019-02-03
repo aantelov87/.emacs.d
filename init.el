@@ -54,7 +54,7 @@
                       nginx-mode
                       ;; Programming language
                       php-mode ac-php ;; PHP
-                      go-mode go-eldoc go-autocomplete gotest go-add-tags go-rename go-guru go-gen-test;; golang
+                      go-mode go-direx go-play go-eldoc go-autocomplete gotest go-tag go-rename go-guru go-gen-test go-fill-struct;; golang
                       dart-mode
                       web-mode scss-mode css-mode ;; HTML, CSS
                       ;; Serialization language
