@@ -53,7 +53,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; Funcs for golang
 (defun go-mode-setup ()
-  (setq compile-command "errcheck && go test -v && go build -v")
+  (setq compile-command "errcheck && go vet && go test -v && go build -v")
   (define-key (current-local-map) "\C-c\C-c" 'compile)
   (go-eldoc-setup)
   (setq gofmt-command "goimports")
@@ -66,10 +66,10 @@ Including indent-buffer, which should not be called automatically on save."
   (local-set-key (kbd "M-.") 'godef-jump)                 ; Go to definition
   (local-set-key (kbd "M-*") 'pop-tag-mark)               ; Return from whence you came
   (local-set-key (kbd "M-p") 'compile)                    ; Invoke compiler
-  (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
+  (local-set-key (kbd "M-P") 'recompile)                  ; Redo most recent compile cmd
   (local-set-key (kbd "M-]") 'next-error)                 ; Go to next error (or msg)
   (local-set-key (kbd "M-[") 'previous-error)             ; Go to previous error or msg
-
+  (local-set-key (kbd "C-c C-g") 'go-gen-test-dwim)
   ;; Misc go stuff
   (auto-complete-mode 1))
 
