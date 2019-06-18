@@ -3,7 +3,7 @@
 (setq is-mac (equal system-type 'darwin))
 (setq default-frame-alist
       (append default-frame-alist
-              '((font . "Monaco 20"))))
+              '((font . "Monaco 24"))))
 
 ;; Initialization
 (require 'package)
@@ -54,7 +54,7 @@
                       nginx-mode
                       ;; Programming language
                       php-mode ac-php ;; PHP
-                      go-mode go-direx go-play go-eldoc go-autocomplete gotest go-tag go-rename go-guru go-gen-test go-fill-struct;; golang
+                      go-mode go-direx go-play go-eldoc go-autocomplete gotest go-tag go-rename go-guru go-gen-test go-fill-struct go-snippets godoctor go-impl;; golang
                       dart-mode
                       web-mode scss-mode css-mode ;; HTML, CSS
                       ;; Serialization language
@@ -157,6 +157,7 @@
 ;; If the go-guru.el file is in the load path, this will load it.
 (require 'go-guru)
 (require 'gotest)
+(require 'godoctor)
 (require 'go-gen-test)
 (defun my-go-gen-test-setup ()
   "My keybindings for generating go tests."
