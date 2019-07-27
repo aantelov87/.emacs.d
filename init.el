@@ -7,7 +7,7 @@
 
 ;; Initialization
 (require 'package)
-
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (setq package-user-dir (expand-file-name "vendors" user-emacs-directory))
 
 ;; Add package repos
@@ -32,30 +32,35 @@
                       ido-completing-read+
                       ido-vertical-mode
                       ido-at-point
-                      auto-complete
                       find-file-in-project
-                      paredit
-		      tagedit
                       markdown-mode
-                      multiple-cursors
                       yasnippet
                       exec-path-from-shell
+
+                      tagedit
+                      paredit
 
                       dired-details
                       expand-region
                       ;; Errors reporting
                       flycheck
                       flycheck-pos-tip
-                      ;; Ctags
-                      ctags-update
                       ;; Version Control
                       magit ;; git
                       restclient
                       nginx-mode
                       ;; Programming language
-                      php-mode ac-php ;; PHP
-                      go-mode go-direx go-play go-eldoc go-autocomplete gotest go-tag go-rename go-guru go-gen-test go-fill-struct go-snippets godoctor go-impl;; golang
-                      dart-mode
+                      go-mode
+                      go-play
+                      gotest
+                      go-tag
+                      go-guru
+                      go-gen-test
+                      go-snippets
+                      godoctor
+                      go-impl ;; golang
+                      lsp-mode
+                      company-lsp
                       web-mode scss-mode css-mode ;; HTML, CSS
                       ;; Serialization language
                       protobuf-mode
@@ -94,7 +99,6 @@
 (require 'flycheck-pos-tip)
 (require 'defuns)
 (require 'find-file-in-project)
-(require 'multiple-cursors)
 (require 'restclient)
 (require 'nginx-mode)
 (require 'yasnippet)
@@ -138,21 +142,12 @@
 (require 'ido-completing-read+)
 (ido-ubiquitous-mode 1)
 
-;; Load modules for PHP and GOLANG
-;; (require 'phpfmt)
-;; (require 'php-mode) ;; PHP
-(add-hook 'php-mode-hook 'my-php-mode-hook)
-(add-hook 'before-save-hook 'phpfmt-before-save)
-
 ;;Load Go-specific language syntax
 (add-hook 'go-mode-hook 'go-mode-setup)
+(require 'lsp-mode)
+(require 'company-lsp)
 
-;;Load auto-complete
-;; Completation mode
-(require 'auto-complete)
-(require 'go-autocomplete)
-(require 'auto-complete-config)
-(ac-config-default)
+(add-hook 'go-mode-hook #'lsp-deferred)
 
 ;; If the go-guru.el file is in the load path, this will load it.
 (require 'go-guru)
@@ -165,10 +160,6 @@
   (local-set-key (kbd "C-c C-g") #'go-gen-test-dwim))
 
 (add-hook 'go-mode-hook #'my-go-gen-test-setup)
-
-;; Dart mode configuration
-(setq dart-format-on-save t)
-(add-hook 'dart-mode-hook 'flycheck-mode)
 
 ;; Load modules for HTML, CSS and JS
 (eval-after-load "sgml-mode"
@@ -199,5 +190,3 @@
 (require 'keys-bindings)
 (require 'mode-mappings)
 ;;; init.el ends here
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)

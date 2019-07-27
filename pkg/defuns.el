@@ -53,9 +53,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; Funcs for golang
 (defun go-mode-setup ()
-  (setq compile-command "errcheck && go vet && go test -v && go build -v")
+  (setq compile-command "go build -o /dev/null ./...")
   (define-key (current-local-map) "\C-c\C-c" 'compile)
-  (go-eldoc-setup)
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
 
@@ -63,7 +62,7 @@ Including indent-buffer, which should not be called automatically on save."
   (go-guru-hl-identifier-mode)                            ; highlight identifiers
 
   ;; Key bindings specific to go-mode
-  (local-set-key (kbd "M-.") 'godef-jump)                 ; Go to definition
+  ;; (local-set-key (kbd "M-.") 'godef-jump)                 ; Go to definition
   (local-set-key (kbd "M-*") 'pop-tag-mark)               ; Return from whence you came
   (local-set-key (kbd "M-p") 'compile)                    ; Invoke compiler
   (local-set-key (kbd "M-P") 'recompile)                  ; Redo most recent compile cmd
