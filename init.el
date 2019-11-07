@@ -3,7 +3,7 @@
 (setq is-mac (equal system-type 'darwin))
 (setq default-frame-alist
       (append default-frame-alist
-              '((font . "Monaco 24"))))
+              '((font . "Go Mono 16"))))
 
 ;; Initialization
 (require 'package)
