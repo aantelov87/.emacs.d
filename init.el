@@ -50,16 +50,15 @@
                       restclient
                       nginx-mode
                       ;; Programming language
-                      go-mode
-                      go-play
+                      go-mode ;; golang
+                      ;; go-play
                       gotest
-                      go-tag
-                      go-guru
                       go-gen-test
-                      go-snippets
-                      godoctor
-                      go-impl ;; golang
+                      ;; go-snippets
+                      ;; godoctor
+                      go-impl
                       lsp-mode
+                      lsp-ui
                       company-lsp
                       web-mode scss-mode css-mode ;; HTML, CSS
                       ;; Serialization language
@@ -143,16 +142,29 @@
 (ido-ubiquitous-mode 1)
 
 ;;Load Go-specific language syntax
-(add-hook 'go-mode-hook 'go-mode-setup)
+; (add-hook 'go-mode-hook 'go-mode-setup)
+(require 'go-mode)
 (require 'lsp-mode)
+(require 'lsp-ui)
 (require 'company-lsp)
+(require 'gotest)
+
+(setq company-idle-delay 0)
+(setq company-minimum-prefix-length 1)
 
 (add-hook 'go-mode-hook #'lsp-deferred)
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+
 
 ;; If the go-guru.el file is in the load path, this will load it.
-(require 'go-guru)
-(require 'gotest)
-(require 'godoctor)
+;; (require 'go-guru)
+;; (require 'godoctor)
 (require 'go-gen-test)
 (defun my-go-gen-test-setup ()
   "My keybindings for generating go tests."
