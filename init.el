@@ -36,7 +36,8 @@
                       markdown-mode
                       yasnippet
                       exec-path-from-shell
-
+                      ;; Use this package for gopls
+                      use-package
                       tagedit
                       paredit
 
@@ -87,6 +88,7 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'noerror)
 
+(require 'use-package)
 (require 'defaults)
 ;; Load core modules && defined functions
 (require 'exec-path-from-shell)
@@ -141,18 +143,12 @@
 (require 'ido-completing-read+)
 (ido-ubiquitous-mode 1)
 
-;;Load Go-specific language syntax
-; (add-hook 'go-mode-hook 'go-mode-setup)
-(require 'go-mode)
-(require 'lsp-mode)
-(require 'lsp-ui)
-(require 'company-lsp)
-(require 'gotest)
+;;Load Gopls configuration took from https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
 
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 1)
-
-(add-hook 'go-mode-hook #'lsp-deferred)
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
 (defun lsp-go-install-save-hooks ()
@@ -160,7 +156,36 @@
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
+;; Optional - provides fancier overlays.
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
 
+;; Company mode is a standard completion package that works well with lsp-mode.
+(use-package company
+  :ensure t
+  :config
+  ;; Optionally enable completion-as-you-type behavior.
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1))
+
+;; company-lsp integrates company mode completion with lsp-mode.
+;; completion-at-point also works out of the box but doesn't support snippets.
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+;; Optional - provides snippet support.
+(use-package yasnippet
+  :ensure t
+  :commands yas-minor-mode
+  :hook (go-mode . yas-minor-mode))
+
+(lsp-register-custom-settings
+ '(("gopls.usePlaceholders" lsp-gopls-use-placeholders t)
+   ("gopls.hoverKind" lsp-gopls-hover-kind)
+   ("gopls.buildFlags" lsp-gopls-build-flags)
+   ("gopls.env" lsp-gopls-env)))
 
 ;; If the go-guru.el file is in the load path, this will load it.
 ;; (require 'go-guru)
