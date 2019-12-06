@@ -52,6 +52,7 @@
                       nginx-mode
                       ;; Programming language
                       go-mode ;; golang
+		      go-tag
                       ;; go-play
                       gotest
                       go-gen-test
@@ -73,12 +74,9 @@
     (package-install p)))
 
 (when is-mac
-  (setq mac-option-modifier 'super)
+  (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'meta)
   (setq ns-function-modifier 'hyper)
-  (setq default-frame-alist
-        (append default-frame-alist
-                '((font . "Monaco 20"))))
   ;; Don't open files from the workspace in a new frame
   (setq ns-pop-up-frames nil)
   ;; Use aspell for spell checking: brew install aspell --lang=en
