@@ -139,6 +139,7 @@
 (ido-ubiquitous-mode 1)
 
 ;;Load Gopls configuration took from https://github.com/golang/tools/blob/master/gopls/doc/emacs.md
+(require 'go-mode)
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
