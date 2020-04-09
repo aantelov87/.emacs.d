@@ -52,12 +52,9 @@
                       nginx-mode
                       ;; Programming language
                       go-mode ;; golang
-		      go-tag
-                      ;; go-play
+                      go-tag
                       gotest
                       go-gen-test
-                      ;; go-snippets
-                      ;; godoctor
                       go-impl
                       lsp-mode
                       lsp-ui
@@ -178,12 +175,6 @@
   :ensure t
   :commands yas-minor-mode
   :hook (go-mode . yas-minor-mode))
-
-(lsp-register-custom-settings
- '(("gopls.usePlaceholders" lsp-gopls-use-placeholders t)
-   ("gopls.hoverKind" lsp-gopls-hover-kind)
-   ("gopls.buildFlags" lsp-gopls-build-flags)
-   ("gopls.env" lsp-gopls-env)))
 
 ;; If the go-guru.el file is in the load path, this will load it.
 ;; (require 'go-guru)
